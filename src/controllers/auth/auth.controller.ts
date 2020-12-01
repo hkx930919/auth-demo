@@ -16,6 +16,8 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get()
   findAll(@Request() req) {
+    console.log(req.user);
+
     return {
       code: 0,
       data: req.user,

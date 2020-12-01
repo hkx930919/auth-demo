@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { sleep } from 'src/utils';
 export type User = {
   id: number;
@@ -7,7 +7,7 @@ export type User = {
 };
 
 @Injectable()
-export class UserService {
+export class UserService implements OnModuleInit {
   private users: User[];
   constructor() {
     this.users = [
@@ -27,6 +27,12 @@ export class UserService {
         password: 'guess',
       },
     ];
+  }
+  onModuleInit() {
+    console.log(
+      `UserService module has been initialized.`,
+      1111111111111111111111111111,
+    );
   }
   async findOne(userName: string): Promise<User | undefined> {
     await sleep();
