@@ -19,8 +19,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
    * validate返回的数据会重新注入到request.user中去
    */
   async validate(payload: any) {
-    console.log('---jwt payload', payload);
-
     return {
       userId: payload.id,
       userName: payload.userName,
