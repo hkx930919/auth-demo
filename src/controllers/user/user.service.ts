@@ -42,12 +42,17 @@ export class UserService {
     return res;
   }
   async query(ids = []) {
-    const res = await this.usersRepository.findByIds(ids);
+    let res;
+    if (!ids || !ids.length) {
+      res = await this.usersRepository.find();
+    } else {
+      res = await this.usersRepository.findByIds(ids);
+    }
     console.log('---res', res);
     return res;
   }
-  async update(data: UserEntity) {
-    const { id, ...others } = data || {};
+  async update(data: UserEntity | any, idKey: any = 'id') {
+    const { [idKey]: id, ...others } = data || {};
     const userList = await this.query([id]);
     if (!userList.length) {
       throw new BadRequestException('没有此id');

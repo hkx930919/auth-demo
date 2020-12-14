@@ -1,5 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Photo } from './photo.entity';
 @Entity()
 export class UserEntity {
   @PrimaryGeneratedColumn()
@@ -10,4 +10,7 @@ export class UserEntity {
 
   @Column()
   password: string;
+  // @Column()
+  // @OneToMany(() => Photo, (photo) => photo.author)
+  // photos: string; // Photo[];
 }

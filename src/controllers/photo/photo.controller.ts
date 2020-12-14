@@ -1,4 +1,4 @@
-import { UserService } from 'src/controllers/user/user.service';
+import { PhotoService } from './photo.service';
 import {
   Controller,
   UseGuards,
@@ -9,27 +9,26 @@ import {
   Query,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/controllers/auth/jwt.strategy';
-import { query } from 'express';
-@Controller('user')
+@Controller('photo')
 @UseGuards(JwtAuthGuard)
-export class UserController {
-  constructor(private readonly userService: UserService) {}
-  @Post('create')
-  async createUser(@Body() data) {
-    const res = await this.userService.create(data);
+export class PhotoController {
+  constructor(private readonly photoService: PhotoService) {}
+  @Post('/create')
+  async createPhoto(@Body() data) {
+    const res = await this.photoService.create(data);
     return {
       code: 0,
       data: res,
     };
   }
-  @Get()
+  @Get('/query')
   async findAll(@Request() req, @Query('ids') ids) {
-    let params = [];
+    let params;
     if (ids) {
       params = ids.split(',');
     }
     console.log('params', params);
-    const res = await this.userService.query(params);
+    const res = await this.photoService.query(params);
     return {
       code: 0,
       data: res,
@@ -38,7 +37,7 @@ export class UserController {
   @Post('/update')
   async updateUser(@Body() body) {
     console.log('body', body);
-    const res = await this.userService.update(body);
+    const res = await this.photoService.update(body);
     return {
       code: 0,
       data: res,
@@ -46,7 +45,7 @@ export class UserController {
   }
   @Post('/delete')
   async deleteUser(@Body('id') id) {
-    const res = await this.userService.delete(id);
+    await this.photoService.delete(id);
     return {
       code: 0,
       success: true,
